@@ -7,6 +7,7 @@ Your task is to deploy and work with the ICRC-1 and ICRC-2 token standards on th
 
 1. Understand the Standards:
 
+
 [[ICRC-1 Standard]]: A token standard for fungible tokens on the ICP. This standard specifies the basic functionalities a token must implement.
 
 [[ICRC-2 Standard]]: An extension of ICRC-1 that includes additional features.
@@ -37,7 +38,8 @@ In case you don't understand any keywords or functions in the process, study the
 
 
 ---
-**Observations:**
+
+## **Observations:**
 This a diff after and before a transaction from `user3` to `user4` of `500000` token
 ```bash
 ❯ diff before_transfer.txt after_transfer.txt
