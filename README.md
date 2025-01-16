@@ -1,61 +1,80 @@
-# `icrc1_ledger`
+2025-01-10 22:54
+#### Tags: [[quad]]
+--- 
+Your task is to deploy and work with the ICRC-1 and ICRC-2 token standards on the Internet Computer (ICP) blockchain using Rust. You will perform various transactions, create identities, and track balances and cycle burns.
 
-Welcome to your new `icrc1_ledger` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+**Steps**
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+1. Understand the Standards:
 
-To learn more before you start working with `icrc1_ledger`, see the following documentation available online:
+[[ICRC-1 Standard]]: A token standard for fungible tokens on the ICP. This standard specifies the basic functionalities a token must implement.
 
-- [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
-- [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
-- [Rust Canister Development Guide](https://internetcomputer.org/docs/current/developer-docs/backend/rust/)
-- [ic-cdk](https://docs.rs/ic-cdk)
-- [ic-cdk-macros](https://docs.rs/ic-cdk-macros)
-- [Candid Introduction](https://internetcomputer.org/docs/current/developer-docs/backend/candid/)
+[[ICRC-2 Standard]]: An extension of ICRC-1 that includes additional features.
 
-If you want to start working on your project right away, you might want to try the following commands:
+Documentation: Review the ICRC-1 documentation and the ICRC-2 documentation to understand the methods and functionalities.
 
+1. Setup and Deployment:
+
+Deploy the ICRC-1 and ICRC-2 standards on the ICP blockchain in your local machine.
+
+Ensure the deployment is successful and the token contracts are operational.
+
+1. Create Identities:
+
+Create five accounts "user1", "user2", "user3", "user4", and "user5".
+
+Additionally, have a 'dev" account (for initial transfers) and a 'minter account (for minting tokens).
+
+1. **Perform Transactions:**
+	- Transfer 1,000,000 tokens from the 'dev' account to 'user1", "user2", and "user3", 
+	- Transfer 1,000,000 tokens from the 'minter" account to "user4" and "user5".
+	- Transfer all tokens from'user5' back to the "minter".
+2. **Track Balances and Cycles:**
+Keep track of the balance of tokens for each account after each transaction
+Monitor if any cycles are burnt during the transactions If cycles are burnt, document the reason. If no cycles are burnt, explain why.
+
+In case you don't understand any keywords or functions in the process, study the documentation, do necessary research and then implement it.
+
+
+---
+**Observations:**
+This a diff after and before a transaction from `user3` to `user4` of `500000` token
 ```bash
-cd icrc1_ledger/
-dfx help
-dfx canister --help
+❯ diff before_transfer.txt after_transfer.txt
+9c9
+< Balance: 99_999_567_401_385 Cycles
+---
+> Balance: 99_999_566_701_743 Cycles
+14,17c14,17
+< Number of queries: 24
+< Instructions spent in queries: 3_060_348
+< Total query request payload size (bytes): 960
+< Total query response payload size (bytes): 1_062
+---
+> Number of queries: 27
+> Instructions spent in queries: 3_417_168
+> Total query request payload size (bytes): 1_080
+> Total query response payload size (bytes): 1_089
+
 ```
 
-## Running the project locally
 
-If you want to test your project locally, you can use the following commands:
+1. Cycles Burned:
+	- Before: 99,999,567,401,385 cycles
+	- After: 99,999,566,701,743 cycles
+	- Difference: 699,642 cycles were burned
 
-```bash
-# Starts the replica, running in the background
-dfx start --background
+2. Query Statistics Changes:
+	- Queries increased by 3 (from 24 to 27)
+	- Instructions spent increased by 356,820 (from 3,060,348 to 3,417,168)
+	- Request payload size increased by 120 bytes (from 960 to 1,080)
+	- Response payload size increased by 27 bytes (from 1,062 to 1,089)
 
-# Deploys your canisters to the replica and generates your candid interface
-dfx deploy
-```
 
-Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
+	Cycles were burned due to the _computation cost_, _memory operation_ and _state_updation_
+	1. Computation Cost: The 356,820 additional instructions required cycles to execute
+	2. Memory Operations: The increase in payload sizes indicates state changes that required memory operations
+	3. State Updates: Recording the new token balances in the canister's state consumed cycles
 
-If you have made changes to your backend canister, you can generate a new candid interface with
 
-```bash
-npm run generate
-```
-
-at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
-
-If you are making frontend changes, you can start a development server with
-
-```bash
-npm start
-```
-
-Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
-
-### Note on frontend environment variables
-
-If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
-
-- set`DFX_NETWORK` to `ic` if you are using Webpack
-- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
-  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
-- Write your own `createActor` constructor
+## Reference

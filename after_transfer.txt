@@ -1,0 +1,18 @@
+Canister status call result for icrc1_ledger_canister.
+Status: Running
+Controllers: kk2cn-km6mj-4fxb2-ziqgx-donse-qzil2-bf25b-sod33-ccu25-2n2gt-sae
+Memory allocation: 0
+Compute allocation: 0
+Freezing threshold: 2_592_000
+Idle cycles burned per day: 16_617_473
+Memory Size: Nat(21139307)
+Balance: 99_999_566_701_743 Cycles
+Reserved: 0 Cycles
+Reserved cycles limit: 5_000_000_000_000 Cycles
+Wasm memory limit: 3_221_225_472 Bytes
+Module hash: 0xea309e1ac779c06520107725df3f6082561d81e0de5ca274080c77de025b0cfd
+Number of queries: 27
+Instructions spent in queries: 3_417_168
+Total query request payload size (bytes): 1_080
+Total query response payload size (bytes): 1_089
+Log visibility: controllers
